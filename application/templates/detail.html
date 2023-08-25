@@ -7,7 +7,7 @@
 
 <hr>
 
-    <form action="">
+    <form action="{% url 'application:comment_create' article_id=article.id %}" method="POST">
         {% csrf_token %}
         {{comment_form}}
         <input type="submit">
@@ -20,7 +20,7 @@
 
     {% for comment in article.comment_set.all %}
         <p>{{comment.content}}
-        <a href="{% url 'articles:comment_delete' article_id=article.id id=comment.id %}">X</a>
+        <a href="{% url 'application:comment_delete' article_id=article.id id=comment.id %}">X</a>
         </p>
     {% endfor %}
 

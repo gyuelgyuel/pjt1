@@ -18,7 +18,7 @@ def create(request):
         form = ArticleForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('articles:index')
+            return redirect('application:index')
     else:
         form=ArticleForm()
 
@@ -43,10 +43,18 @@ def detail(request,id):
 def comment_create(request, article_id):
     comment_form = CommentForm(request.POST)
 
-    comment = comment_form.save(commit=False)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
 
-    comment.article_id = article_id
+        comment.article_id = article_id
 
-    comment.save()
+        comment.save()
 
-    return redirect('articles:detail', id=article_id)
+        return redirect('application:detail', id=article_id)
+    
+def comment_delete(request, article_id,id):
+    comment = Comment.objects.get(id=id)
+
+    comment.delete()
+
+    return redirect('application:detail', id=article_id)
